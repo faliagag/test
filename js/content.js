@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  // Inyectar inject.js en el contexto de la página
+  // Inyectar inject.js en el contexto real de la página
   function injectScript() {
     const script = document.createElement('script');
     script.src = chrome.runtime.getURL('js/inject.js');
@@ -10,16 +10,20 @@
     (document.head || document.documentElement).appendChild(script);
   }
 
-  injectScript();
+  // Inyectar lo antes posible
+  if (document.readyState === 'loading') {
+    injectScript();
+  } else {
+    injectScript();
+  }
 
-  // Escuchar mensajes desde inject.js
+  // Escuchar mensajes de inject.js
   window.addEventListener('message', function (event) {
     if (event.source !== window) return;
     const msg = event.data;
-    if (!msg || !msg.type) return;
+    if (!msg?.type) return;
 
     if (msg.type === 'VIMEO_VIDEOS_FOUND') {
-      // Enviar al background/popup
       chrome.runtime.sendMessage({
         action: 'VIDEOS_FOUND',
         videos: msg.videos,
@@ -27,18 +31,10 @@
         pageUrl: location.href
       }).catch(() => {});
     }
-
-    if (msg.type === 'VIMEO_CONFIG_URL') {
-      chrome.runtime.sendMessage({
-        action: 'CONFIG_URL',
-        url: msg.url,
-        pageUrl: location.href
-      }).catch(() => {});
-    }
   });
 
-  // También detectar el video element de Vimeo player embebido
-  function checkForVideoElements() {
+  // Detectar <video> con src de Vimeo directamente
+  function checkVideoElements() {
     document.querySelectorAll('video').forEach(video => {
       const src = video.src || video.currentSrc;
       if (src && (src.includes('vimeocdn') || src.includes('vimeo'))) {
@@ -51,19 +47,15 @@
     });
   }
 
-  // Observer para <video> dinámicos
-  const videoObserver = new MutationObserver(() => checkForVideoElements());
-  const startObserver = () => {
+  const obs = new MutationObserver(checkVideoElements);
+  const start = () => {
     if (document.body) {
-      videoObserver.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
-      checkForVideoElements();
+      obs.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
+      checkVideoElements();
     }
   };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startObserver);
-  } else {
-    startObserver();
-  }
+  document.readyState === 'loading'
+    ? document.addEventListener('DOMContentLoaded', start)
+    : start();
 
 })();

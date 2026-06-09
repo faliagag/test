@@ -1,62 +1,70 @@
 // background.js - Service Worker
-
-// Almacén de videos por tab
 const videoStore = {};
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  const tabId = sender.tab?.id;
-  if (!tabId) return;
+  // Para mensajes desde content scripts, tabId viene en sender.tab
+  // Para mensajes desde el popup, tabId viene explícito en msg.tabId
+  const tabId = sender.tab?.id ?? msg.tabId;
 
   if (msg.action === 'VIDEOS_FOUND') {
+    if (!tabId) return sendResponse({ ok: false });
     if (!videoStore[tabId]) videoStore[tabId] = { videos: [], title: '', pageUrl: '' };
     const store = videoStore[tabId];
-    store.title = msg.title || store.title;
-    store.pageUrl = msg.pageUrl || store.pageUrl;
+    if (msg.title) store.title = msg.title;
+    if (msg.pageUrl) store.pageUrl = msg.pageUrl;
 
-    // Agregar solo videos nuevos (sin duplicados por URL)
     const existingUrls = new Set(store.videos.map(v => v.url));
-    msg.videos.forEach(v => {
-      if (!existingUrls.has(v.url)) {
+    (msg.videos || []).forEach(v => {
+      if (v.url && !existingUrls.has(v.url)) {
         store.videos.push(v);
         existingUrls.add(v.url);
       }
     });
 
-    // Actualizar badge
-    const count = store.videos.filter(v => v.type === 'mp4' || !v.type).length || store.videos.length;
-    chrome.action.setBadgeText({ text: String(count), tabId });
-    chrome.action.setBadgeBackgroundColor({ color: '#1ab7ea', tabId });
+    const count = store.videos.length;
+    if (count > 0) {
+      chrome.action.setBadgeText({ text: String(count), tabId }).catch(() => {});
+      chrome.action.setBadgeBackgroundColor({ color: '#1ab7ea', tabId }).catch(() => {});
+    }
     sendResponse({ ok: true });
+    return true;
   }
 
   if (msg.action === 'VIDEO_ELEMENT_FOUND') {
+    if (!tabId) return sendResponse({ ok: false });
     if (!videoStore[tabId]) videoStore[tabId] = { videos: [], title: '', pageUrl: '' };
     const store = videoStore[tabId];
     const existingUrls = new Set(store.videos.map(v => v.url));
-    if (!existingUrls.has(msg.url)) {
-      store.videos.push({ url: msg.url, quality: 'Detectado', type: 'mp4' });
-      chrome.action.setBadgeText({ text: String(store.videos.length), tabId });
-      chrome.action.setBadgeBackgroundColor({ color: '#1ab7ea', tabId });
+    if (msg.url && !existingUrls.has(msg.url)) {
+      store.videos.push({ url: msg.url, quality: 'Detectado', type: 'mp4', height: 0 });
+      chrome.action.setBadgeText({ text: String(store.videos.length), tabId }).catch(() => {});
+      chrome.action.setBadgeBackgroundColor({ color: '#1ab7ea', tabId }).catch(() => {});
     }
     sendResponse({ ok: true });
+    return true;
   }
 
   if (msg.action === 'GET_VIDEOS') {
-    const store = videoStore[tabId] || { videos: [], title: '', pageUrl: '' };
+    // tabId viene explícito desde el popup
+    const id = msg.tabId;
+    const store = id ? (videoStore[id] || { videos: [], title: '', pageUrl: '' }) : { videos: [], title: '', pageUrl: '' };
     sendResponse(store);
-    return true; // async
+    return true;
   }
 
   if (msg.action === 'CLEAR_VIDEOS') {
-    delete videoStore[tabId];
-    chrome.action.setBadgeText({ text: '', tabId });
+    const id = msg.tabId ?? tabId;
+    if (id) {
+      delete videoStore[id];
+      chrome.action.setBadgeText({ text: '', tabId: id }).catch(() => {});
+    }
     sendResponse({ ok: true });
+    return true;
   }
 
   return true;
 });
 
-// Limpiar al cambiar de URL
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
   if (changeInfo.status === 'loading' && changeInfo.url) {
     delete videoStore[tabId];
