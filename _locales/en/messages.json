@@ -1,8 +1,8 @@
 {
-   "extDes": {
-      "message": "Free Vimeo Downloader allows easy and efficient downloading of high-quality Vimeo videos, including private and embedded ones."
-   },
-   "extName": {
-      "message": "Free Vimeo™ Downloader"
-   }
+  "extName": {
+    "message": "Vimeo Video Downloader"
+  },
+  "extDescription": {
+    "message": "Download Vimeo videos with automatic quality detection"
+  }
 }

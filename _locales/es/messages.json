@@ -1,8 +1,8 @@
 {
-   "extDes": {
-      "message": "Descargador Gratuito de Vimeo™ permite la descarga fácil y eficiente de videos de Vimeo de alta calidad, incluidos los privados y los incrustados."
-   },
-   "extName": {
-      "message": "Descargador Gratuito de Vimeo™"
-   }
+  "extName": {
+    "message": "Vimeo Video Downloader"
+  },
+  "extDescription": {
+    "message": "Descarga videos de Vimeo con detección automática de calidades"
+  }
 }
