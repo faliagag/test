@@ -1,66 +1,52 @@
 {
-   "action": {
-      "default_icon": {
-         "128": "icons/newvt_logo.png"
-      },
-      "default_popup": "popup.html",
-      "default_title": "__MSG_extName__"
-   },
-   "background": {
-      "service_worker": "js/background.js"
-   },
-   "content_scripts": [ {
-      "all_frames": true,
-      "css": [ "css/newvt-insert-vimeo.css" ],
-      "js": [ "js/content-script-newvt-vimeo.js" ],
-      "matches": [ "\u003Call_urls>" ],
-      "run_at": "document_end"
-   }, {
-      "all_frames": true,
-      "js": [ "js/content-inject.js" ],
-      "matches": [ "*://*.vimeo.com/*" ],
-      "run_at": "document_start"
-   }, {
-      "all_frames": true,
-      "js": [ "js/content-script-volume.js" ],
-      "matches": [ "*://*.vimeo.com/*" ],
-      "run_at": "document_end"
-   }, {
-      "all_frames": true,
-      "js": [ "js/content-script-turn.js" ],
-      "matches": [ "*://*.vimeo.com/*" ],
-      "run_at": "document_end"
-   }, {
-      "all_frames": true,
-      "js": [ "js/content-script-picture.js" ],
-      "matches": [ "*://*.vimeo.com/*" ],
-      "run_at": "document_end"
-   } ],
-   "declarative_net_request": {
-      "rule_resources": [ {
-         "enabled": true,
-         "id": "ruleset_1",
-         "path": "rule.json"
-      } ]
-   },
-   "default_locale": "en",
-   "description": "__MSG_extDes__",
-   "homepage_url": "https://chrome.google.com/webstore/detail/migiikaijhclkmlpnnfficpopgmcpgia",
-   "host_permissions": [ "\u003Call_urls>" ],
-   "icons": {
-      "128": "icons/newvt_logo.png"
-   },
-   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqnLVutVvfxX0mmAvCZ9tMUIQiJ92w2U6Kd48+Jf7P6UCP/qH7ylRkYE1xqp3EofnDLEX0wKzCvR0xVP6wBwN7b7RXNtbMGWlvoQae57hc8MM0eCJHz/XKXozEej/UCBDdQZ/w0AE5cF0o3OutKVqKMwZKRFeLarjthhuykdK9Em2DPXE1hkTcPYbacfe5JR3dBDrAsYsvauNdTQsyGRbo5A81liooUepDKtgOJQAVbqsCRwOQ1NGLHhdCMCWpK7DJYAoKDRiVIrZS7LNtBxjyiuW3mlmBNeiJriuSRfFf4NNaa1VBZnGW40R/reaf/BUlLk2KLrq4NNqrBQ3rz2wXQIDAQAB",
-   "manifest_version": 3,
-   "name": "__MSG_extName__",
-   "permissions": [ "tabs", "storage", "downloads", "*://*.aliyuncs.com/*", "declarativeNetRequest", "alarms" ],
-   "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "1.0.6",
-   "web_accessible_resources": [ {
-      "matches": [ "\u003Call_urls>" ],
-      "resources": [ "icons/*" ]
-   }, {
-      "matches": [ "*://*.vimeo.com/*" ],
-      "resources": [ "js/ajax-listener.js" ]
-   } ]
+  "manifest_version": 3,
+  "name": "Vimeo Video Downloader",
+  "version": "2.0.0",
+  "description": "Descarga videos de Vimeo con detección automática de calidades",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Vimeo Downloader"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "webRequest"
+  ],
+  "host_permissions": [
+    "*://*.vimeo.com/*",
+    "*://*.vimeocdn.com/*",
+    "*://*.vimeo.com/video/*"
+  ],
+  "background": {
+    "service_worker": "js/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.vimeo.com/*",
+        "*://*/*"
+      ],
+      "js": ["js/content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["js/inject.js"],
+      "matches": ["*://*.vimeo.com/*", "*://*/*"]
+    }
+  ]
 }
