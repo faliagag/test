@@ -1,0 +1,197 @@
+.mergeBody {
+    background: linear-gradient(180deg, white, rgba(100, 170, 228, 0.2));
+    height: 100vh;
+    margin: 0;
+}
+.topTitle {
+    display: flex;
+    font-size: 30px;
+    color: #514f4f;
+    align-items: center;
+    padding-top: 5px;
+    padding-left: 10px;
+}
+.bor {
+    border: 1px solid #fff;
+    box-shadow: 0 0 0 2px #e5e3e3;
+    text-align: center;
+    border-radius: 20px;
+    width: 850px;
+    height: 300px;
+    margin: auto;
+    position: relative;
+    top: 200px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.waiting {
+    text-align: center;
+    font-size: 2rem;
+    border-radius: 20px;
+    width: 800px;
+    height: 190px;
+    line-height: 100px;
+    margin: auto;
+    position: absolute;
+    top: 25%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.progress-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+.down_show {
+    text-align: center;
+    display: none;
+    border-radius: 20px;
+    width: 800px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 20px 10px;
+    align-items: center;
+}
+
+.video_cover {
+    height: 200px;
+    width: 295px;
+}
+.down_progress {
+    font-size: 20px;
+    font-weight: 600;
+}
+.video_title {
+    font-size: 1.5rem;
+    text-align: left;
+    font-weight: 600;
+    width: 295px;
+    height: 30px;
+    display: inline-block;
+    margin-block-start: 10px;
+    margin-block-end: 40px;
+}
+
+.show_left {
+    width: 295px;
+    overflow: hidden;
+    border-right: 1px solid #c3bdbd;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+.show_right {
+    width: 420px;
+    margin-left: 15px;
+}
+.fatherProgress{
+    overflow: hidden;
+    margin-left: 7px;
+    display: block;
+    width: 95%;
+    height: 20px;
+    border-radius: 25px;
+    background-color: rgba(224, 227, 234, 100);
+}
+.fatherProgress span{
+    color: #fff;
+    padding-right: 4px;
+    line-height: 30px;
+    float: right;
+}
+.fatherProgress .child{
+    width: 2%;
+    height: 100%;
+    border-radius: 25px;
+    background-color: #5793f7;
+    text-align: center;
+    transition: width .4s;
+}
+.btn-download {
+    opacity: 0;
+}
+.input-area {
+    margin-top: 160px;
+}
+.tips {
+    font-size: 13px;
+}
+.tips_p {
+    margin-top: 30px;
+    font-size: 13px;
+    color: gray;
+}
+.tips ul {
+    font-size: 13px;
+    line-height: 20px;
+    padding-inline-start: 40px;
+}
+.tips ul li {
+    position: relative;
+    list-style: none;
+}
+.tips ul li::before {
+    content: "\2022  ";
+    position: absolute;
+    left: -13px;
+    display: inline-block;
+    font-size: 30px;
+    color: #5793f7;
+}
+.span_progress {
+    font-size: 14px;
+}
+.down_complete {
+    display: flex;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 12px;
+}
+.down_complete span {
+    font-size: 20px;
+    color: #0e932e;
+    display: inline-block;
+    margin-left: 5px;
+}
+.speed-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.speed-selector span {
+    margin-right: 10px;
+}
+
+.speed-selector label {
+    display: flex;
+    margin-right: 20px;
+    cursor: pointer;
+    gap: 2px;
+    margin-bottom: 0;
+}
+.high_speed_tip {
+    font-size: 10px;
+    float: right;
+    position: fixed;
+    margin-top: 3px;
+    margin-left: 32px;
+}
+.speed-selector input[type="radio"] {
+    display: block;
+    margin: 0;
+}
+
+.speed-selector input[type="radio"] + label {
+    color: #000;
+}
+
+.speed-selector input[type="radio"]:checked + label {
+    color: #007bff;
+}

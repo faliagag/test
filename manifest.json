@@ -1,0 +1,66 @@
+{
+   "action": {
+      "default_icon": {
+         "128": "icons/newvt_logo.png"
+      },
+      "default_popup": "popup.html",
+      "default_title": "__MSG_extName__"
+   },
+   "background": {
+      "service_worker": "js/background.js"
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "css": [ "css/newvt-insert-vimeo.css" ],
+      "js": [ "js/content-script-newvt-vimeo.js" ],
+      "matches": [ "\u003Call_urls>" ],
+      "run_at": "document_end"
+   }, {
+      "all_frames": true,
+      "js": [ "js/content-inject.js" ],
+      "matches": [ "*://*.vimeo.com/*" ],
+      "run_at": "document_start"
+   }, {
+      "all_frames": true,
+      "js": [ "js/content-script-volume.js" ],
+      "matches": [ "*://*.vimeo.com/*" ],
+      "run_at": "document_end"
+   }, {
+      "all_frames": true,
+      "js": [ "js/content-script-turn.js" ],
+      "matches": [ "*://*.vimeo.com/*" ],
+      "run_at": "document_end"
+   }, {
+      "all_frames": true,
+      "js": [ "js/content-script-picture.js" ],
+      "matches": [ "*://*.vimeo.com/*" ],
+      "run_at": "document_end"
+   } ],
+   "declarative_net_request": {
+      "rule_resources": [ {
+         "enabled": true,
+         "id": "ruleset_1",
+         "path": "rule.json"
+      } ]
+   },
+   "default_locale": "en",
+   "description": "__MSG_extDes__",
+   "homepage_url": "https://chrome.google.com/webstore/detail/migiikaijhclkmlpnnfficpopgmcpgia",
+   "host_permissions": [ "\u003Call_urls>" ],
+   "icons": {
+      "128": "icons/newvt_logo.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqnLVutVvfxX0mmAvCZ9tMUIQiJ92w2U6Kd48+Jf7P6UCP/qH7ylRkYE1xqp3EofnDLEX0wKzCvR0xVP6wBwN7b7RXNtbMGWlvoQae57hc8MM0eCJHz/XKXozEej/UCBDdQZ/w0AE5cF0o3OutKVqKMwZKRFeLarjthhuykdK9Em2DPXE1hkTcPYbacfe5JR3dBDrAsYsvauNdTQsyGRbo5A81liooUepDKtgOJQAVbqsCRwOQ1NGLHhdCMCWpK7DJYAoKDRiVIrZS7LNtBxjyiuW3mlmBNeiJriuSRfFf4NNaa1VBZnGW40R/reaf/BUlLk2KLrq4NNqrBQ3rz2wXQIDAQAB",
+   "manifest_version": 3,
+   "name": "__MSG_extName__",
+   "permissions": [ "tabs", "storage", "downloads", "*://*.aliyuncs.com/*", "declarativeNetRequest", "alarms" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.0.6",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "icons/*" ]
+   }, {
+      "matches": [ "*://*.vimeo.com/*" ],
+      "resources": [ "js/ajax-listener.js" ]
+   } ]
+}

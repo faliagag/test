@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>video merge</title>
+    <link rel="stylesheet" href="css/custom-video-merge.css">
+</head>
+<body class="mergeBody">
+<div class="topTitle">
+    <span>Vimeo™ Downloader Download Progress</span>
+</div>
+<div id="bor" class="bor">
+    <div id="waiting" class="waiting">Processing data, please wait a minute</div>
+    <div id="down_show" class="down_show">
+        <div id="show_left" class="show_left">
+            <p id="video_title" class="video_title"></p>
+            <img src="" id="video_cover" class="video_cover">
+        </div>
+        <div id="show_right" class="show_right">
+            <p class="down_progress" id="down_progress">Download</p>
+            <div class="speed-selector" id="speed-selector">
+                <label><input type="radio" name="speed" value="1"> 1x</label>
+                <label><input type="radio" name="speed" value="2"> 2x</label>
+                <label><input type="radio" name="speed" value="3" checked> 3x</label>
+                <label><input type="radio" name="speed" value="4"> 4x</label>
+                <label><input type="radio" name="speed" value="5"> 5x</label>
+                <label><input type="radio" name="speed" value="6"> 6x<span class="high_speed_tip">(High Performance PC)</span></label>
+            </div>
+            <div class="progress-block">
+                <div class="fatherProgress" id="fatherProgress">
+                    <div class="child" id="child">
+                    </div>
+                </div>
+                <span id="span_progress" class="span_progress">0%</span>
+            </div>
+            <div class="tips">
+                <p class="tips_p">Tips: Do not close or refresh this page.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./js/lib/ffmpeg.min.js"></script>
+<script src="./js/lib/ffmpeg-core.js"></script>
+<script src="./js/merge.js"></script>
+</body>
+</html>
